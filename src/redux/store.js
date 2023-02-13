@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import rootRed from '../redux/user/slice/userSlice'
+import userSlice from '../redux/user/slice/userSlice'
+// import rootRed from '../redux/user/slice/userSlice'
 
 const store = configureStore({
-  reducer: rootRed,
+  reducer: {
+    user: userSlice,
+  },
 })
 export default store

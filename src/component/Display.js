@@ -59,7 +59,7 @@ const Display = () => {
     },
   ]
 
-  console.log('data--->', data)
+  // console.log('data--->', data)
 
   useEffect(() => {
     getAllData()
@@ -84,7 +84,7 @@ const Display = () => {
   const getAllData = () => {
     axios.get(`${url}${userEndPoint}`).then((response) => {
       setData(response.data)
-      console.log(response.data)
+      // console.log(response.data)
     })
   }
 
