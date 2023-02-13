@@ -1,9 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+  get: {
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    errorMessage: '',
+    list: [],
+  },
+}
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: [],
-  reducers: {
+  initialState,
+  reducers: [],
+  extraReducers: {
     addUser: (state, action) => {
       state.push(action.payload)
     },
