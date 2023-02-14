@@ -1,19 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+// import axios from 'axios'
+import userServices from '../services/user.services'
 // import userService from '../services/user.services'
 
 export const getUser = createAsyncThunk(
   'user/get-user',
-  async (payload, { rejectWithValue }) => {
+  async (payload, thunkAPI) => {
     console.log(payload)
+    console.log(thunkAPI)
     try {
-      const { data } = await axios.get('https://gorest.co.in/public/v2/users')
-      console.log(data)
-      return data
+      const response = await userServices.get(payload)
+      console.log(response.data)
+      return response
       // const response = await userService.get(payload)
       // return response
     } catch (error) {
-      rejectWithValue(error.response.data)
+      return thunkAPI.rejectWithValue(error)
       // return thunkAPI.rejectWithValue(error)
     }
   }

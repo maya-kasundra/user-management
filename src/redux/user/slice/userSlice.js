@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { deleteUser } from '../thunk/delete'
 import { getUser } from '../thunk/get'
 
 const initialState = {
@@ -8,6 +9,12 @@ const initialState = {
     isError: false,
     errorMessage: '',
     list: [],
+  },
+  delete: {
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    errorMessage: '',
   },
 }
 
@@ -33,8 +40,27 @@ const userSlice = createSlice({
       state.get.isError = true
       state.get.errorMessage = action.error
     },
+
+    // DELETE
+    [deleteUser.pending]: (state, action) => {
+      state.isLoading = true
+      state.isSuccess = false
+      state.isError = false
+    },
+    [deleteUser.fulfilled]: (state, action) => {
+      state.message = action.payload.code
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+    },
+    [deleteUser.rejected]: (state, action) => {
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = true
+      state.errorMessage = action.error
+    },
   },
 })
 
-export const { addUser } = userSlice.actions
+export const {} = userSlice.actions
 export default userSlice.reducer

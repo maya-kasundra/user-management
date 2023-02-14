@@ -1,16 +1,29 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from '../../redux/user/thunk/get'
+// import Table from 'react-bootstrap/Table'
 import { Input, Modal, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { userEndPoint } from '../api/api-end-point'
-import ApplyUser from '../pages/user/ApplyUser'
+import { deleteUser } from '../../redux/user/thunk/delete'
 
-const Display = () => {
-  const url = 'https://gorest.co.in/public/v2/'
+const ApplyUser = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
-  const [data, setData] = useState([])
+  const [userData, setUserData] = useState([])
+  const dispatch = useDispatch()
+  const data = useSelector((state) => state.user.get.list)
+
+  // call fetch user data API
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
+
+  // get data form state and set in userData
+  useEffect(() => {
+    setUserData(data)
+  }, [data])
+  console.log(data)
+
   const columns = [
     {
       key: 'id',
@@ -60,17 +73,13 @@ const Display = () => {
     },
   ]
 
-  // console.log('data--->', data)
-
-  useEffect(() => {
-    getAllData()
-  }, [])
-
+  // delete user info function
   const Delete = (record) => {
     Modal.confirm({
       title: 'Are you sure you want to delete this',
       onOk: () => {
-        setData((data) => {
+        dispatch(deleteUser())
+        setUserData((data) => {
           return data.filter((person) => person.id !== record.id)
         })
       },
@@ -82,23 +91,17 @@ const Display = () => {
     setEditingStudent({ ...record })
   }
 
-  const getAllData = () => {
-    axios.get(`${url}${userEndPoint}`).then((response) => {
-      setData(response.data)
-      console.log(response.data)
-    })
-  }
-
   const resetEditing = () => {
     setIsEditing(false)
     setEditingStudent(null)
   }
+
   return (
     <div className="app">
       <div className="table">
         {/* <Table dataSource={data} columns={columns} pagination={false} /> */}
         <Table
-          dataSource={data}
+          dataSource={userData}
           columns={columns}
           pagination={{ pageSize: 2, total: 10 }}
         />
@@ -111,7 +114,7 @@ const Display = () => {
             resetEditing()
           }}
           onOk={() => {
-            setData((pre) => {
+            setUserData((pre) => {
               return pre.map((student) => {
                 if (student.id === editingStudent.id) {
                   return editingStudent
@@ -158,10 +161,9 @@ const Display = () => {
             }}
           />
         </Modal>
-        <ApplyUser />
       </div>
     </div>
   )
 }
 
-export default Display
+export default ApplyUser

@@ -1,9 +1,19 @@
-// import commonAPI from '../../../api/common'
-// import { userAdminEndPoint, userEndPoint } from '../../../api/api-end-point'
+import commonAPI from '../../../api/common'
+import { userEndPoint } from '../../../api/api-end-point'
 
-// const userAdmin = () => {
-//   console.log('hello')
-// }
-// class userService {}
+class userService {
+  get() {
+    return commonAPI.get(`/${userEndPoint}`)
+  }
 
-// export default new userService()
+  post() {
+    return commonAPI.post(`/${userEndPoint}`)
+  }
+
+  //delete using id
+  delete(id) {
+    return commonAPI.delete(`/${userEndPoint}/${id}`)
+  }
+}
+
+export default new userService()
