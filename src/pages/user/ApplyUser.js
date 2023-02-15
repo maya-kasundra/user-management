@@ -7,6 +7,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { deleteUser } from '../../redux/user/thunk/delete'
 import { putUser } from '../../redux/user/thunk/put'
 import { postUser } from '../../redux/user/thunk/post'
+import './ApplyUser.css'
 
 // import { useParams } from 'react-router-dom'
 
@@ -18,6 +19,8 @@ const ApplyUser = () => {
   const [userData, setUserData] = useState([])
   const dispatch = useDispatch()
   const data = useSelector((state) => state.user.get.list)
+  const postData = useSelector((state) => state.user.post)
+  console.log(postData)
 
   // call fetch user data API
   useEffect(() => {
@@ -95,15 +98,15 @@ const ApplyUser = () => {
   }
   // create new user
   const onAddUser = () => {
-    dispatch(postUser())
-    console.log(postUser())
+    // console.log(postUser())
     const newStudent = {
-      id: 407554,
-      name: 'Vrinda Mehra',
+      id: 408350,
+      name: 'sujal',
       email: 'vrinda_mehra@roob.co',
       gender: 'female',
       status: 'active',
     }
+    dispatch(postUser(newStudent))
     setUserData((pre) => {
       return [...pre, newStudent]
     })
@@ -121,8 +124,23 @@ const ApplyUser = () => {
   }
 
   return (
-    <div className="app">
-      <Button onClick={() => onAddUser()}>Add a new User</Button>
+    <div
+      className="app"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        padding: 20,
+      }}
+    >
+      <h4 className="text-center mt-4">CRUD API USING REDUX</h4>
+      <div className="addButton">
+        <Button onClick={() => onAddUser()} className="addUser">
+          Add a new User
+        </Button>
+      </div>
+
       <div className="table">
         <Table
           dataSource={userData}

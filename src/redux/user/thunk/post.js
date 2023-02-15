@@ -5,10 +5,11 @@ import userServices from '../services/user.services'
 export const postUser = createAsyncThunk(
   'user/post-user',
   async (payload, thunkAPI) => {
-    console.log('post-payload--->', payload)
-    console.log('post-payload--->', thunkAPI)
+    console.log('post-payload-payload --->', payload)
+    console.log('post-payload-thunkapi--->', thunkAPI)
     try {
       const response = await userServices.post(payload)
+      console.log('post-user-response', response)
       thunkAPI.dispatch(getUser())
       return response
     } catch (error) {

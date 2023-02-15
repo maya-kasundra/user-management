@@ -1,0 +1,11 @@
+.addButton {
+  text-align: right;
+  margin: 15px 45px 0px 0px;
+}
+.addButton Button {
+  background-color: rgb(69, 61, 187);
+  color: white;
+}
+.addButton :hover {
+  background-color: aliceblue;
+} /*# sourceMappingURL=applyuser.css.map */

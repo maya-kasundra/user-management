@@ -57,39 +57,40 @@ const userSlice = createSlice({
 
     // DELETE
     [deleteUser.pending]: (state, action) => {
-      state.isLoading = true
-      state.isSuccess = false
-      state.isError = false
+      state.delete.isLoading = true
+      state.delete.isSuccess = false
+      state.delete.isError = false
     },
     [deleteUser.fulfilled]: (state, action) => {
-      state.message = action.payload.code
-      state.isLoading = false
-      state.isSuccess = true
-      state.isError = false
+      state.delete.message = action.payload.code
+      state.delete.isLoading = false
+      state.delete.isSuccess = true
+      state.delete.isError = false
     },
     [deleteUser.rejected]: (state, action) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = true
-      state.errorMessage = action.error
+      state.delete.isLoading = false
+      state.delete.isSuccess = false
+      state.delete.isError = true
+      state.delete.errorMessage = action.error
     },
     // PUT
     [putUser.pending]: (state, action) => {
-      state.isLoading = true
-      state.isSuccess = false
-      state.isError = false
+      state.put.isLoading = true
+      state.put.isSuccess = false
+      state.put.isError = false
     },
     [putUser.fulfilled]: (state, action) => {
-      state.message = action.payload.code
-      state.isLoading = false
-      state.isSuccess = true
-      state.isError = false
+      console.log(action)
+      state.put.message = action.payload.data
+      state.put.isLoading = false
+      state.put.isSuccess = true
+      state.put.isError = false
     },
     [putUser.rejected]: (state, action) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = true
-      state.errorMessage = action.error
+      state.put.isLoading = false
+      state.put.isSuccess = false
+      state.put.isError = true
+      state.put.errorMessage = action.error
     },
 
     // POST

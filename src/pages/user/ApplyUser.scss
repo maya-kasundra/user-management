@@ -1,0 +1,11 @@
+.addButton {
+  text-align: right;
+  margin: 15px 25px 0px 0px;
+  Button {
+    background-color: rgb(69, 61, 187);
+    color: white;
+  }
+  :hover {
+    background-color: aliceblue;
+  }
+}
