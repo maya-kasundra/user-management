@@ -5,14 +5,19 @@ class userService {
   get() {
     return commonAPI.get(`/${userEndPoint}`)
   }
-
-  post() {
-    return commonAPI.post(`/${userEndPoint}`)
+  //create user
+  post(data) {
+    return commonAPI.post(`/${userEndPoint}`, data)
   }
 
   //delete using id
   delete(id) {
     return commonAPI.delete(`/${userEndPoint}/${id}`)
+  }
+
+  // put/ edit using Id
+  put(id, data) {
+    return commonAPI.put(`/${userEndPoint}/${id}`, data)
   }
 }
 

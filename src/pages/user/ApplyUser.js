@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../redux/user/thunk/get'
 // import Table from 'react-bootstrap/Table'
-import { Input, Modal, Table } from 'antd'
+import { Button, Input, Modal, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { deleteUser } from '../../redux/user/thunk/delete'
+import { putUser } from '../../redux/user/thunk/put'
+import { postUser } from '../../redux/user/thunk/post'
+
+// import { useParams } from 'react-router-dom'
 
 const ApplyUser = () => {
+  // const id = useParams()
+  // console.log(id)
   const [isEditing, setIsEditing] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
   const [userData, setUserData] = useState([])
@@ -22,7 +28,7 @@ const ApplyUser = () => {
   useEffect(() => {
     setUserData(data)
   }, [data])
-  console.log(data)
+  // console.log(data)
 
   const columns = [
     {
@@ -59,7 +65,7 @@ const ApplyUser = () => {
             <div className="flex">
               <EditOutlined
                 onClick={() => {
-                  onEditStudent(record)
+                  onEditUser(record)
                 }}
               />
               <DeleteOutlined
@@ -75,18 +81,36 @@ const ApplyUser = () => {
 
   // delete user info function
   const Delete = (record) => {
+    // console.log('record---->', record)
     Modal.confirm({
       title: 'Are you sure you want to delete this',
       onOk: () => {
-        dispatch(deleteUser())
+        dispatch(deleteUser(record.id))
         setUserData((data) => {
+          // console.log('userdata:', data)
           return data.filter((person) => person.id !== record.id)
         })
       },
     })
   }
+  // create new user
+  const onAddUser = () => {
+    dispatch(postUser())
+    console.log(postUser())
+    const newStudent = {
+      id: 407554,
+      name: 'Vrinda Mehra',
+      email: 'vrinda_mehra@roob.co',
+      gender: 'female',
+      status: 'active',
+    }
+    setUserData((pre) => {
+      return [...pre, newStudent]
+    })
+  }
 
-  const onEditStudent = (record) => {
+  const onEditUser = (record) => {
+    console.log('edit user record', record)
     setIsEditing(true)
     setEditingStudent({ ...record })
   }
@@ -98,28 +122,30 @@ const ApplyUser = () => {
 
   return (
     <div className="app">
+      <Button onClick={() => onAddUser()}>Add a new User</Button>
       <div className="table">
-        {/* <Table dataSource={data} columns={columns} pagination={false} /> */}
         <Table
           dataSource={userData}
           columns={columns}
-          pagination={{ pageSize: 2, total: 10 }}
+          // pagination={{ pageSize: 2, total: 10 }}
         />
         ;
         <Modal
-          title="Edit Student"
-          visible={isEditing}
+          title="Edit User"
+          open={isEditing}
           okText="Save"
           onCancel={() => {
             resetEditing()
           }}
           onOk={() => {
+            dispatch(putUser(editingStudent))
+            console.log('edit student', editingStudent)
             setUserData((pre) => {
-              return pre.map((student) => {
-                if (student.id === editingStudent.id) {
+              return pre.map((user, index) => {
+                if (user.id === editingStudent.id) {
                   return editingStudent
                 } else {
-                  return student
+                  return user
                 }
               })
             })
