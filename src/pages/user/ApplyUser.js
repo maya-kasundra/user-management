@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../redux/user/thunk/get'
 // import Table from 'react-bootstrap/Table'
 import { Button, Input, Modal, Table } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import { deleteUser } from '../../redux/user/thunk/delete'
 import { putUser } from '../../redux/user/thunk/put'
 import { postUser } from '../../redux/user/thunk/post'
@@ -19,8 +19,8 @@ const ApplyUser = () => {
   const [userData, setUserData] = useState([])
   const dispatch = useDispatch()
   const data = useSelector((state) => state.user.get.list)
-  const postData = useSelector((state) => state.user.post)
-  console.log(postData)
+  // const postData = useSelector((state) => state.user.post)
+  // console.log(postData)
 
   // call fetch user data API
   useEffect(() => {
@@ -38,26 +38,84 @@ const ApplyUser = () => {
       key: 'id',
       title: 'Id',
       dataIndex: 'id',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
     },
     {
       key: 'name',
       title: 'Name',
       dataIndex: 'name',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => {
+        return (
+          <>
+            <Input
+              autoFocus
+              placeholder="Type text here"
+              value={selectedKeys[0]}
+              onChange={(e) => {
+                setSelectedKeys(e.target.value ? [e.target.value] : [])
+                confirm({ closeDropdown: false })
+              }}
+              onPressEnter={() => {
+                confirm()
+              }}
+              onBlur={() => {
+                confirm()
+              }}
+            ></Input>
+            <Button
+              onClick={() => {
+                confirm()
+              }}
+              type="primary"
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => {
+                clearFilters()
+              }}
+              type="danger"
+            >
+              Reset
+            </Button>
+          </>
+        )
+      },
+      filterIcon: () => {
+        return <SearchOutlined />
+      },
+      onFilter: (value, record) => {
+        return record.name.toLowerCase().includes(value.toLowerCase())
+      },
     },
     {
       key: 'email',
       title: 'Email',
       dataIndex: 'email',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
     },
     {
       key: 'gender',
       title: 'Gender',
       dataIndex: 'gender',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
     },
     {
       key: 'status',
       title: 'Status',
       dataIndex: 'status',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
     },
     {
       key: 'action',
@@ -145,7 +203,8 @@ const ApplyUser = () => {
         <Table
           dataSource={userData}
           columns={columns}
-          // pagination={{ pageSize: 2, total: 10 }}
+          pagination={{ pageSize: 5, total: 10 }}
+          rowClassName={() => 'rowClassName1'}
         />
         ;
         <Modal

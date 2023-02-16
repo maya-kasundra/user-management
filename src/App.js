@@ -1,4 +1,4 @@
-import './App.css'
+import './app.css'
 import { Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './component/Header'
