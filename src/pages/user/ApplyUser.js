@@ -205,10 +205,11 @@ const ApplyUser = () => {
           columns={columns}
           pagination={{ pageSize: 5, total: 10 }}
           rowClassName={() => 'rowClassName1'}
+          bordered
         />
         ;
         <Modal
-          title="Edit User"
+          title="Edit Existing User"
           open={isEditing}
           okText="Save"
           onCancel={() => {
@@ -229,7 +230,9 @@ const ApplyUser = () => {
             resetEditing()
           }}
         >
+          <span>Name:</span>
           <Input
+            name="Edit Id"
             value={editingStudent?.name}
             onChange={(e) => {
               setEditingStudent((pre) => {
@@ -237,7 +240,7 @@ const ApplyUser = () => {
               })
             }}
           />
-
+          <span>Email:</span>
           <Input
             value={editingStudent?.email}
             onChange={(e) => {
@@ -246,7 +249,7 @@ const ApplyUser = () => {
               })
             }}
           />
-
+          <span>Gender:</span>
           <Input
             value={editingStudent?.gender}
             onChange={(e) => {
@@ -255,6 +258,7 @@ const ApplyUser = () => {
               })
             }}
           />
+          <span>Status:</span>
           <Input
             value={editingStudent?.status}
             onChange={(e) => {

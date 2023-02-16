@@ -15,7 +15,7 @@ tr:nth-child(odd) {
 }
 
 tr:nth-child(even) {
-  background: #dec8fe;
+  background: #ede3ff;
 }
 
 thead[class*=ant-table-thead] th {
@@ -26,14 +26,6 @@ thead[class*=ant-table-thead] th {
   font-size: 14px;
 }
 
-.rowClassName1 {
-  background-color: cadetblue;
-  border-radius: 10px;
-  border-color: chartreuse;
-  border-width: 3px;
-  border-style: solid;
-}
-
 .rowClassName1 td:first-child {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -42,4 +34,12 @@ thead[class*=ant-table-thead] th {
 .rowClassName1 td:last-child {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-}/*# sourceMappingURL=ApplyUser.css.map */
+}
+
+input.ant-input.css-dev-only-do-not-override-ixblex {
+  margin-bottom: 13px;
+}
+
+span {
+  font-weight: 500;
+}/*# sourceMappingURL=applyuser.css.map */
