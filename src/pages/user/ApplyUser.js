@@ -8,16 +8,20 @@ import { deleteUser } from '../../redux/user/thunk/delete'
 import { putUser } from '../../redux/user/thunk/put'
 import { postUser } from '../../redux/user/thunk/post'
 import './ApplyUser.css'
-
-// import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ApplyUser = () => {
-  // const id = useParams()
-  // console.log(id)
   const [isEditing, setIsEditing] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
+  const [creatingStudent, setCreatingStudent] = useState(null)
   const [userData, setUserData] = useState([])
   const dispatch = useDispatch()
+  const [createName, setCreateName] = useState('')
+  const [createEmail, setCreateEmail] = useState('')
+  const [createGender, setCreateGender] = useState('')
+  const [createStatus, setCreateStatus] = useState('')
+
   const data = useSelector((state) => state.user.get.list)
   // const postData = useSelector((state) => state.user.post)
   // console.log(postData)
@@ -144,7 +148,7 @@ const ApplyUser = () => {
   const Delete = (record) => {
     // console.log('record---->', record)
     Modal.confirm({
-      title: 'Are you sure you want to delete this',
+      title: `are you sure you want to delete ${record.name}`,
       onOk: () => {
         dispatch(deleteUser(record.id))
         setUserData((data) => {
@@ -155,20 +159,20 @@ const ApplyUser = () => {
     })
   }
   // create new user
-  const onAddUser = () => {
-    // console.log(postUser())
-    const newStudent = {
-      id: 408350,
-      name: 'sujal',
-      email: 'vrinda_mehra@roob.co',
-      gender: 'female',
-      status: 'active',
-    }
-    dispatch(postUser(newStudent))
-    setUserData((pre) => {
-      return [...pre, newStudent]
-    })
-  }
+  // const onAddUser = () => {
+  // console.log(postUser())
+  // const newStudent = {
+  //   id: 408350,
+  //   name: 'sujal',
+  //   email: 'vrinda_mehra@roob.co',
+  //   gender: 'female',
+  //   status: 'active',
+  // }
+  // dispatch(postUser(newStudent))
+  // setUserData((pre) => {
+  //   return [...pre, newStudent]
+  // })
+  // }
 
   const onEditUser = (record) => {
     console.log('edit user record', record)
@@ -181,6 +185,16 @@ const ApplyUser = () => {
     setEditingStudent(null)
   }
 
+  const onCreateUser = () => {
+    // console.log('create user record', record)
+    setIsCreating(true)
+    setCreatingStudent()
+  }
+
+  const resetCreating = () => {
+    setIsCreating(false)
+    setCreatingStudent(null)
+  }
   return (
     <div
       className="app"
@@ -194,7 +208,13 @@ const ApplyUser = () => {
     >
       <h4 className="text-center mt-4">CRUD API USING REDUX</h4>
       <div className="addButton">
-        <Button onClick={() => onAddUser()} className="addUser">
+        {/* <Button onClick={() => onAddUser()} className="addUser"> */}
+        <Button
+          className="addUser"
+          onClick={() => {
+            onCreateUser()
+          }}
+        >
           Add a new User
         </Button>
       </div>
@@ -208,6 +228,37 @@ const ApplyUser = () => {
           bordered
         />
         ;
+        <Modal
+          title="Create New User"
+          open={isCreating}
+          okText="Save"
+          onCancel={() => {
+            resetCreating()
+          }}
+          onOk={() => {
+            // dispatch(putUser(editingStudent))
+            // console.log('edit student', editingStudent)
+            setUserData((pre) => {
+              return pre.map((user, index) => {
+                if (user.id === editingStudent.id) {
+                  return editingStudent
+                } else {
+                  return user
+                }
+              })
+            })
+            resetCreating()
+          }}
+        >
+          <span>Name:</span>
+          <Input />
+          <span>Email:</span>
+          <Input />
+          <span>Gender:</span>
+          <Input />
+          <span>Status:</span>
+          <Input />
+        </Modal>
         <Modal
           title="Edit Existing User"
           open={isEditing}

@@ -100,7 +100,9 @@ const userSlice = createSlice({
       state.post.isError = false
     },
     [postUser.fulfilled]: (state, action) => {
-      state.post.message = action.payload.code
+      console.log('post action....', action)
+      console.log('postUser action....', postUser)
+      state.post.message = action.payload.data
       state.post.isLoading = false
       state.post.isSuccess = true
       state.post.isError = false

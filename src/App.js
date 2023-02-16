@@ -5,6 +5,7 @@ import Header from './component/Header'
 // import Display from './component/Display'
 import 'antd/dist/reset.css'
 import ApplyUser from './pages/user/ApplyUser'
+import ModalForm from './pages/user/ModalForm'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<ApplyUser />} />
         <Route path="/:id" element={<ApplyUser />} />
         {/* <Route path="/" element={<Display />} /> */}
+        <Route exact path="/create-user" element={<ModalForm />} />
       </Routes>
     </>
   )
