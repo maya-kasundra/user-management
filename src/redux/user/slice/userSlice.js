@@ -111,7 +111,7 @@ const userSlice = createSlice({
       state.post.isLoading = false
       state.post.isSuccess = false
       state.post.isError = true
-      state.post.errorMessage = action.error
+      state.post.errorMessage = action.error.message
     },
   },
 })

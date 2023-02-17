@@ -9,7 +9,9 @@ export const postUser = createAsyncThunk(
     console.log('post-payload-thunkapi--->', thunkAPI)
     try {
       const response = await userServices.post(payload)
+
       console.log('post-user-response', response)
+      console.log('post-user-payload', payload)
       thunkAPI.dispatch(getUser())
       return response
     } catch (error) {

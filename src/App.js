@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './component/Header'
 // import Display from './component/Display'
 import 'antd/dist/reset.css'
+import 'react-toastify/dist/ReactToastify.css'
 import ApplyUser from './pages/user/ApplyUser'
 import ModalForm from './pages/user/ModalForm'
 

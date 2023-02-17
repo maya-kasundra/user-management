@@ -7,6 +7,7 @@ export const putUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await userServices.put(payload.id, payload.data)
+      console.log('put response', response)
 
       thunkAPI.dispatch(getUser())
       //   History.push('/leave')

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../redux/user/thunk/get'
 // import Table from 'react-bootstrap/Table'
-import { Button, Input, Modal, Table } from 'antd'
+import { Button, Input, Modal, Table, Form, Checkbox } from 'antd'
+// import { Button, Checkbox, Form, Input } from 'antd';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import { deleteUser } from '../../redux/user/thunk/delete'
 import { putUser } from '../../redux/user/thunk/put'
 import { postUser } from '../../redux/user/thunk/post'
 import './ApplyUser.css'
-import { useNavigate } from 'react-router-dom'
+import ModalForm from './ModalForm'
+import { ToastContainer, toast } from 'react-toastify'
 
 const ApplyUser = () => {
   const [isEditing, setIsEditing] = useState(false)
@@ -21,10 +23,12 @@ const ApplyUser = () => {
   const [createEmail, setCreateEmail] = useState('')
   const [createGender, setCreateGender] = useState('')
   const [createStatus, setCreateStatus] = useState('')
+  const [createId, setCreateId] = useState('')
 
   const data = useSelector((state) => state.user.get.list)
   // const postData = useSelector((state) => state.user.post)
   // console.log(postData)
+  const notify = () => toast('Wow so easy!')
 
   // call fetch user data API
   useEffect(() => {
@@ -158,21 +162,6 @@ const ApplyUser = () => {
       },
     })
   }
-  // create new user
-  // const onAddUser = () => {
-  // console.log(postUser())
-  // const newStudent = {
-  //   id: 408350,
-  //   name: 'sujal',
-  //   email: 'vrinda_mehra@roob.co',
-  //   gender: 'female',
-  //   status: 'active',
-  // }
-  // dispatch(postUser(newStudent))
-  // setUserData((pre) => {
-  //   return [...pre, newStudent]
-  // })
-  // }
 
   const onEditUser = (record) => {
     console.log('edit user record', record)
@@ -195,6 +184,33 @@ const ApplyUser = () => {
     setIsCreating(false)
     setCreatingStudent(null)
   }
+
+  const onFinish = (values) => {
+    console.log('Success:', values)
+  }
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+
+  // create new user
+  const onAddUser = () => {
+    // console.log('add clicked', createId)
+    const newStudent = {
+      id: createId,
+      name: createName,
+      email: createEmail,
+      gender: createGender,
+      status: createStatus,
+    }
+    // console.log('new student is', newStudent)
+    dispatch(postUser(newStudent))
+    setUserData((data) => {
+      return [...data, newStudent]
+      // console.log(data)
+    })
+    console.log(data)
+  }
+
   return (
     <div
       className="app"
@@ -223,42 +239,156 @@ const ApplyUser = () => {
         <Table
           dataSource={userData}
           columns={columns}
-          pagination={{ pageSize: 5, total: 10 }}
+          // pagination={{ pageSize: 5, total: 10 }}
           rowClassName={() => 'rowClassName1'}
           bordered
         />
-        ;
+        ;{/* Modal for create user */}
         <Modal
           title="Create New User"
           open={isCreating}
-          okText="Save"
+          // okText="Save"
           onCancel={() => {
             resetCreating()
           }}
-          onOk={() => {
-            // dispatch(putUser(editingStudent))
-            // console.log('edit student', editingStudent)
-            setUserData((pre) => {
-              return pre.map((user, index) => {
-                if (user.id === editingStudent.id) {
-                  return editingStudent
-                } else {
-                  return user
-                }
-              })
-            })
-            resetCreating()
-          }}
+          footer={null}
+          // onOk={() => {
+          //   // dispatch(putUser(editingStudent))
+          //   // console.log('edit student', editingStudent)
+          //   setUserData((pre) => {
+          //     return pre.map((user, index) => {
+          //       if (user.id === editingStudent.id) {
+          //         return editingStudent
+          //       } else {
+          //         return user
+          //       }
+          //     })
+          //   })
+          //   resetCreating()
+          // }}
         >
-          <span>Name:</span>
-          <Input />
-          <span>Email:</span>
-          <Input />
-          <span>Gender:</span>
-          <Input />
-          <span>Status:</span>
-          <Input />
+          <Form
+            open={isCreating}
+            name="basic"
+            labelCol={{
+              span: 7,
+            }}
+            wrapperCol={{
+              span: 14,
+            }}
+            style={{
+              maxWidth: 600,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Id"
+              name="id"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Id !',
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Id"
+                type="number"
+                value={createId}
+                onChange={(e) => setCreateId(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your username !',
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Username"
+                value={createName}
+                onChange={(e) => setCreateName(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Email"
+              name="Email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Email !',
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Email"
+                value={createEmail}
+                onChange={(e) => setCreateEmail(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Gender"
+              name="Gender"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Gender !',
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Gender"
+                value={createGender}
+                onChange={(e) => setCreateGender(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Status"
+              name="Status"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Status !',
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Status"
+                value={createStatus}
+                onChange={(e) => setCreateStatus(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => onAddUser()}
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </Modal>
+        {/* edit Modal started */}
         <Modal
           title="Edit Existing User"
           open={isEditing}
@@ -278,6 +408,7 @@ const ApplyUser = () => {
                 }
               })
             })
+
             resetEditing()
           }}
         >
@@ -318,6 +449,7 @@ const ApplyUser = () => {
               })
             }}
           />
+          <ToastContainer />
         </Modal>
       </div>
     </div>
@@ -325,3 +457,15 @@ const ApplyUser = () => {
 }
 
 export default ApplyUser
+
+export const toastNotify = (type, message) =>
+  toast(`${message}`, {
+    position: 'top-center',
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    type,
+  })

@@ -10,7 +10,7 @@ export const getUser = createAsyncThunk(
     console.log(thunkAPI)
     try {
       const response = await userServices.get(payload)
-      console.log(response.data)
+      console.log('get log', response)
       return response
       // const response = await userService.get(payload)
       // return response
